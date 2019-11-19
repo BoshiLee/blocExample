@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'bloc_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'count_bloc.dart';
 
 void main() => runApp(new MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: BlocProvider(
-        bloc: CountBLoC(),
+        builder: (context) => CounterBLoC(),
         child: CounterPage(),
       ),
     );
@@ -23,24 +23,22 @@ class MyApp extends StatelessWidget {
 class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final CountBLoC bloc = BlocProvider.of<CountBLoC>(context);
-
     return Scaffold(
       appBar: AppBar(title: Text('Stream version of the Counter App')),
-      body: Center(
-        child: StreamBuilder<int>(
-            stream: bloc.countStream,
-            initialData: bloc.count,
-            builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-              print(snapshot.data);
-              return Text('You hit me: ${snapshot.data} times');
-            }),
+      body: BlocBuilder<CounterBLoC, int>(
+        builder: (context, count) {
+          return Center(
+            child: Text(
+              '$count',
+              style: TextStyle(fontSize: 24.0),
+            ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {
-          bloc.add(1);
-        },
+        onPressed: () =>
+            BlocProvider.of<CounterBLoC>(context).add(CounterEvent.increment),
       ),
     );
   }

@@ -1,27 +1,24 @@
 import 'dart:async';
+import 'package:bloc/bloc.dart';
 
-import 'bloc.dart';
+enum CounterEvent { increment, decrement }
 
-class CountBLoC implements Bloc {
-  int _count = 0;
-  int get count => this._count;
-
-  // 1
-  final _countController = StreamController<int>();
-
-  // 2
-  Stream<int> get countStream => _countController.stream;
-
-  // 3
-  void add(int newCount) {
-    print(newCount);
-    this._count += newCount;
-    _countController.sink.add(this._count);
-  }
-
-  // 4
+class CounterBLoC extends Bloc<CounterEvent, int> {
   @override
-  void dispose() {
-    _countController.close();
+  // TODO: implement initialState
+  int get initialState => 0;
+  // 1
+
+  @override
+  Stream<int> mapEventToState(CounterEvent event) async* {
+    // TODO: implement mapEventToState
+    switch (event) {
+      case CounterEvent.increment:
+        yield state + 1;
+        break;
+      case CounterEvent.decrement:
+        yield state - 1;
+        break;
+    }
   }
 }
