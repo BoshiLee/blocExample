@@ -24,21 +24,34 @@ class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Stream version of the Counter App')),
-      body: BlocBuilder<CounterBLoC, int>(
-        builder: (context, count) {
-          return Center(
-            child: Text(
-              '$count',
-              style: TextStyle(fontSize: 24.0),
-            ),
-          );
-        },
-      ),
+      appBar: AppBar(title: Text('Builder version of the Counter App')),
+      body: BlocBuilder<CounterBLoC, int>(builder: (context, count) {
+        return CountWidget(
+          count: count,
+        );
+      }),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () =>
             BlocProvider.of<CounterBLoC>(context).add(CounterEvent.increment),
+      ),
+    );
+  }
+}
+
+class CountWidget extends StatelessWidget {
+  final int count;
+
+  CountWidget({this.count});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        'You Hit ${this.count}',
+        style: TextStyle(
+          fontSize: 18,
+        ),
       ),
     );
   }
