@@ -1,6 +1,6 @@
 # bloc_test
 
-A new Flutter application.
+此篇 BLoC 應用是參考 Bloc Flutter 官方文件所做出來的範例
 
 ## Getting Started
 
